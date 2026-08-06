@@ -10,7 +10,8 @@ class HDFCParser(BankParser):
 
     def can_parse(self, text: str) -> bool:
         text_upper = text.upper()
-        return "HDFC BANK" in text_upper or "HDFCBANK" in text_upper or "HDFC0" in text_upper
+        # Strict check for HDFC Bank header
+        return "HDFC BANK" in text_upper or "HDFCBANK" in text_upper or "HDFC BANK LIMITED" in text_upper
 
     def extract_account_details(self, pages_data: List[Dict[str, Any]]) -> AccountDetails:
         return extract_dynamic_account_details(pages_data, default_bank="HDFC Bank Limited")
