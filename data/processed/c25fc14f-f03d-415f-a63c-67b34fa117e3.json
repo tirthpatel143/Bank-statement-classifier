@@ -1,0 +1,213 @@
+{
+  "job_id": "c25fc14f-f03d-415f-a63c-67b34fa117e3",
+  "file_name": "icici_sample_statement.pdf",
+  "status": "completed",
+  "detected_bank": "ICICI Bank",
+  "parser_used": "ICICIParser",
+  "layout_confidence": 0.95,
+  "account_details": {
+    "account_holder": {
+      "value": "ICICI Account Holder",
+      "page": 1,
+      "confidence": 0.95
+    },
+    "account_number": {
+      "value": "000401567890",
+      "page": 1,
+      "confidence": 0.98
+    },
+    "masked_account_number": "XXXX XXXX 7890",
+    "ifsc": {
+      "value": "ICIC0000004",
+      "page": 1,
+      "confidence": 0.98
+    },
+    "bank_name": {
+      "value": "ICICI Bank Limited",
+      "page": 1,
+      "confidence": 0.99
+    },
+    "branch": {
+      "value": null,
+      "page": 1,
+      "confidence": 1.0
+    },
+    "statement_period_start": null,
+    "statement_period_end": null,
+    "opening_balance": null,
+    "closing_balance": null,
+    "currency": "INR"
+  },
+  "transactions": [
+    {
+      "transaction_id": "57e16433-ccda-4726-9066-f00073a55846",
+      "date": "2026-01-03",
+      "value_date": null,
+      "description": "03-01-2026 - INF/SWIGGY/REST PAYMENT",
+      "raw_description": "1 03-01-2026 03-01-2026 - INF/SWIGGY/REST PAYMENT 350.00 99650.00",
+      "debit": null,
+      "credit": 350.0,
+      "amount": 350.0,
+      "transaction_type": "credit",
+      "balance": 99650.0,
+      "currency": "INR",
+      "category": "Food",
+      "classification_method": "rule",
+      "classification_confidence": 0.9,
+      "matched_keywords": [
+        "swiggy"
+      ],
+      "source_page": 1,
+      "extraction_confidence": 0.94,
+      "row_valid": true,
+      "balance_check": true,
+      "needs_review": false,
+      "validation_issues": []
+    },
+    {
+      "transaction_id": "6ba9a02e-8131-4daf-a6c2-959d7a7e50d2",
+      "date": "2026-01-07",
+      "value_date": null,
+      "description": "07-01-2026 - BY CASH DEPOSIT CDM BANDRA",
+      "raw_description": "2 07-01-2026 07-01-2026 - BY CASH DEPOSIT CDM BANDRA 15000.00 114650.00",
+      "debit": null,
+      "credit": 15000.0,
+      "amount": 15000.0,
+      "transaction_type": "credit",
+      "balance": 114650.0,
+      "currency": "INR",
+      "category": "Cash Deposit",
+      "classification_method": "rule",
+      "classification_confidence": 0.95,
+      "matched_keywords": [
+        "cash deposit",
+        "cash dep"
+      ],
+      "source_page": 1,
+      "extraction_confidence": 0.94,
+      "row_valid": true,
+      "balance_check": true,
+      "needs_review": false,
+      "validation_issues": []
+    },
+    {
+      "transaction_id": "61d26e75-73f2-452d-9aaf-86da661a8595",
+      "date": "2026-01-12",
+      "value_date": null,
+      "description": "12-01-2026 - UBER RIDE MUMBAI",
+      "raw_description": "3 12-01-2026 12-01-2026 - UBER RIDE MUMBAI 420.00 114230.00",
+      "debit": 420.0,
+      "credit": null,
+      "amount": 420.0,
+      "transaction_type": "debit",
+      "balance": 114230.0,
+      "currency": "INR",
+      "category": "Transport",
+      "classification_method": "rule",
+      "classification_confidence": 0.9,
+      "matched_keywords": [
+        "uber"
+      ],
+      "source_page": 1,
+      "extraction_confidence": 0.94,
+      "row_valid": true,
+      "balance_check": true,
+      "needs_review": false,
+      "validation_issues": []
+    },
+    {
+      "transaction_id": "cb004ff8-7369-45b2-a819-5d8eebb890ed",
+      "date": "2026-01-18",
+      "value_date": null,
+      "description": "18-01-2026 - JIO BROADBAND BILL PAYMENT",
+      "raw_description": "4 18-01-2026 18-01-2026 - JIO BROADBAND BILL PAYMENT 999.00 113231.00",
+      "debit": 999.0,
+      "credit": null,
+      "amount": 999.0,
+      "transaction_type": "debit",
+      "balance": 113231.0,
+      "currency": "INR",
+      "category": "Utilities",
+      "classification_method": "rule",
+      "classification_confidence": 0.95,
+      "matched_keywords": [
+        "broadband",
+        "jio"
+      ],
+      "source_page": 1,
+      "extraction_confidence": 0.94,
+      "row_valid": true,
+      "balance_check": true,
+      "needs_review": false,
+      "validation_issues": []
+    },
+    {
+      "transaction_id": "5417a7aa-8172-464e-a253-48bb1e0756d2",
+      "date": "2026-01-26",
+      "value_date": null,
+      "description": "26-01-2026 - ZOMATO ORDER MUMBAI",
+      "raw_description": "5 26-01-2026 26-01-2026 - ZOMATO ORDER MUMBAI 650.00 112581.00",
+      "debit": 650.0,
+      "credit": null,
+      "amount": 650.0,
+      "transaction_type": "debit",
+      "balance": 112581.0,
+      "currency": "INR",
+      "category": "Food",
+      "classification_method": "rule",
+      "classification_confidence": 0.9,
+      "matched_keywords": [
+        "zomato"
+      ],
+      "source_page": 1,
+      "extraction_confidence": 0.94,
+      "row_valid": true,
+      "balance_check": true,
+      "needs_review": false,
+      "validation_issues": []
+    }
+  ],
+  "validation_report": {
+    "total_rows": 5,
+    "valid_rows": 5,
+    "invalid_rows": 0,
+    "balance_check_pass_rate": 100.0,
+    "duplicate_count": 0,
+    "opening_balance_matched": true,
+    "closing_balance_matched": true,
+    "warnings": []
+  },
+  "classification_summary": [
+    {
+      "category": "Food",
+      "count": 2,
+      "total_debit": 650.0,
+      "total_credit": 350.0
+    },
+    {
+      "category": "Cash Deposit",
+      "count": 1,
+      "total_debit": 0.0,
+      "total_credit": 15000.0
+    },
+    {
+      "category": "Transport",
+      "count": 1,
+      "total_debit": 420.0,
+      "total_credit": 0.0
+    },
+    {
+      "category": "Utilities",
+      "count": 1,
+      "total_debit": 999.0,
+      "total_credit": 0.0
+    }
+  ],
+  "page_types": [
+    {
+      "page_number": 1,
+      "page_type": "text",
+      "character_count": 511
+    }
+  ]
+}

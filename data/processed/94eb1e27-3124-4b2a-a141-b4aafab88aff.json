@@ -1,0 +1,187 @@
+{
+  "job_id": "94eb1e27-3124-4b2a-a141-b4aafab88aff",
+  "file_name": "KOTH -8037 - FOR ENGLISH TRANSLATION 111.pdf",
+  "status": "completed",
+  "detected_bank": "State Bank of India",
+  "parser_used": "SBIParser",
+  "layout_confidence": 0.95,
+  "account_details": {
+    "account_holder": {
+      "value": "SBI Account Holder",
+      "page": 1,
+      "confidence": 0.95
+    },
+    "account_number": {
+      "value": "20012345678",
+      "page": 1,
+      "confidence": 0.98
+    },
+    "masked_account_number": "XXXXXXX5678",
+    "ifsc": {
+      "value": "SBIN0000300",
+      "page": 1,
+      "confidence": 0.98
+    },
+    "bank_name": {
+      "value": "State Bank of India",
+      "page": 1,
+      "confidence": 0.99
+    },
+    "branch": {
+      "value": null,
+      "page": 1,
+      "confidence": 1.0
+    },
+    "statement_period_start": null,
+    "statement_period_end": null,
+    "opening_balance": null,
+    "closing_balance": null,
+    "currency": "INR"
+  },
+  "transactions": [],
+  "validation_report": {
+    "total_rows": 0,
+    "valid_rows": 0,
+    "invalid_rows": 0,
+    "balance_check_pass_rate": 100.0,
+    "duplicate_count": 0,
+    "opening_balance_matched": true,
+    "closing_balance_matched": true,
+    "warnings": [
+      "No transactions extracted."
+    ]
+  },
+  "classification_summary": [],
+  "page_types": [
+    {
+      "page_number": 1,
+      "page_type": "image",
+      "character_count": 0
+    },
+    {
+      "page_number": 2,
+      "page_type": "image",
+      "character_count": 0
+    },
+    {
+      "page_number": 3,
+      "page_type": "image",
+      "character_count": 0
+    },
+    {
+      "page_number": 4,
+      "page_type": "image",
+      "character_count": 0
+    },
+    {
+      "page_number": 5,
+      "page_type": "image",
+      "character_count": 0
+    },
+    {
+      "page_number": 6,
+      "page_type": "image",
+      "character_count": 0
+    },
+    {
+      "page_number": 7,
+      "page_type": "image",
+      "character_count": 0
+    },
+    {
+      "page_number": 8,
+      "page_type": "image",
+      "character_count": 0
+    },
+    {
+      "page_number": 9,
+      "page_type": "image",
+      "character_count": 0
+    },
+    {
+      "page_number": 10,
+      "page_type": "image",
+      "character_count": 0
+    },
+    {
+      "page_number": 11,
+      "page_type": "image",
+      "character_count": 0
+    },
+    {
+      "page_number": 12,
+      "page_type": "image",
+      "character_count": 0
+    },
+    {
+      "page_number": 13,
+      "page_type": "image",
+      "character_count": 0
+    },
+    {
+      "page_number": 14,
+      "page_type": "image",
+      "character_count": 0
+    },
+    {
+      "page_number": 15,
+      "page_type": "image",
+      "character_count": 0
+    },
+    {
+      "page_number": 16,
+      "page_type": "image",
+      "character_count": 0
+    },
+    {
+      "page_number": 17,
+      "page_type": "image",
+      "character_count": 0
+    },
+    {
+      "page_number": 18,
+      "page_type": "image",
+      "character_count": 0
+    },
+    {
+      "page_number": 19,
+      "page_type": "image",
+      "character_count": 0
+    },
+    {
+      "page_number": 20,
+      "page_type": "image",
+      "character_count": 0
+    },
+    {
+      "page_number": 21,
+      "page_type": "image",
+      "character_count": 0
+    },
+    {
+      "page_number": 22,
+      "page_type": "image",
+      "character_count": 0
+    },
+    {
+      "page_number": 23,
+      "page_type": "image",
+      "character_count": 0
+    },
+    {
+      "page_number": 24,
+      "page_type": "image",
+      "character_count": 0
+    },
+    {
+      "page_number": 25,
+      "page_type": "image",
+      "character_count": 0
+    },
+    {
+      "page_number": 26,
+      "page_type": "image",
+      "character_count": 0
+    }
+  ]
+}

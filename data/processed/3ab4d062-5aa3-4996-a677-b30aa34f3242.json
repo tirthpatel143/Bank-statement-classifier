@@ -1,0 +1,62 @@
+{
+  "job_id": "3ab4d062-5aa3-4996-a677-b30aa34f3242",
+  "file_name": "sample_hdfc_text_statement (1).pdf",
+  "status": "completed",
+  "detected_bank": "HDFC Bank",
+  "parser_used": "HDFCParser",
+  "layout_confidence": 0.95,
+  "account_details": {
+    "account_holder": {
+      "value": "HDFC Account Holder",
+      "page": 1,
+      "confidence": 0.95
+    },
+    "account_number": {
+      "value": "50100234567890",
+      "page": 1,
+      "confidence": 0.98
+    },
+    "masked_account_number": "XXXXXXXXXX7890",
+    "ifsc": {
+      "value": "HDFC0000240",
+      "page": 1,
+      "confidence": 0.98
+    },
+    "bank_name": {
+      "value": "HDFC Bank Limited",
+      "page": 1,
+      "confidence": 0.99
+    },
+    "branch": {
+      "value": null,
+      "page": 1,
+      "confidence": 1.0
+    },
+    "statement_period_start": null,
+    "statement_period_end": null,
+    "opening_balance": null,
+    "closing_balance": null,
+    "currency": "INR"
+  },
+  "transactions": [],
+  "validation_report": {
+    "total_rows": 0,
+    "valid_rows": 0,
+    "invalid_rows": 0,
+    "balance_check_pass_rate": 100.0,
+    "duplicate_count": 0,
+    "opening_balance_matched": true,
+    "closing_balance_matched": true,
+    "warnings": [
+      "No transactions extracted."
+    ]
+  },
+  "classification_summary": [],
+  "page_types": [
+    {
+      "page_number": 1,
+      "page_type": "text",
+      "character_count": 199
+    }
+  ]
+}

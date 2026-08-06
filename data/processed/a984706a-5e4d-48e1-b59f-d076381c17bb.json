@@ -1,0 +1,317 @@
+{
+  "job_id": "a984706a-5e4d-48e1-b59f-d076381c17bb",
+  "file_name": "hdfc_sample_statement.pdf",
+  "status": "completed",
+  "detected_bank": "HDFC Bank",
+  "parser_used": "HDFCParser",
+  "layout_confidence": 0.95,
+  "account_details": {
+    "account_holder": {
+      "value": "HDFC Account Holder",
+      "page": 1,
+      "confidence": 0.95
+    },
+    "account_number": {
+      "value": "50100234567890",
+      "page": 1,
+      "confidence": 0.98
+    },
+    "masked_account_number": "XXXX XXXX 7890",
+    "ifsc": {
+      "value": "HDFC0000240",
+      "page": 1,
+      "confidence": 0.98
+    },
+    "bank_name": {
+      "value": "HDFC Bank Limited",
+      "page": 1,
+      "confidence": 0.99
+    },
+    "branch": {
+      "value": null,
+      "page": 1,
+      "confidence": 1.0
+    },
+    "statement_period_start": null,
+    "statement_period_end": null,
+    "opening_balance": 50000.0,
+    "closing_balance": 45250.0,
+    "currency": "INR"
+  },
+  "transactions": [
+    {
+      "transaction_id": "554e0850-3e65-4702-abd0-dcc64f6439ac",
+      "date": "2026-01-02",
+      "value_date": null,
+      "description": "UPI/SWIGGY/FOOD ORDER/129381 REF1001 02/01/26",
+      "raw_description": "02/01/26 UPI/SWIGGY/FOOD ORDER/129381 REF1001 02/01/26 450.00 49,550.00",
+      "debit": 450.0,
+      "credit": null,
+      "amount": 450.0,
+      "transaction_type": "debit",
+      "balance": 49550.0,
+      "currency": "INR",
+      "category": "Food",
+      "classification_method": "rule",
+      "classification_confidence": 0.95,
+      "matched_keywords": [
+        "swiggy",
+        "food"
+      ],
+      "source_page": 1,
+      "extraction_confidence": 0.95,
+      "row_valid": true,
+      "balance_check": true,
+      "needs_review": false,
+      "validation_issues": []
+    },
+    {
+      "transaction_id": "342d7508-f154-4266-81df-e263074387e2",
+      "date": "2026-01-05",
+      "value_date": null,
+      "description": "SALARY DEPOSIT ACME CORP REF1002 05/01/26",
+      "raw_description": "05/01/26 SALARY DEPOSIT ACME CORP REF1002 05/01/26 25,000.00 74,550.00",
+      "debit": null,
+      "credit": 25000.0,
+      "amount": 25000.0,
+      "transaction_type": "credit",
+      "balance": 74550.0,
+      "currency": "INR",
+      "category": "Salary",
+      "classification_method": "rule",
+      "classification_confidence": 0.9,
+      "matched_keywords": [
+        "salary"
+      ],
+      "source_page": 1,
+      "extraction_confidence": 0.95,
+      "row_valid": true,
+      "balance_check": true,
+      "needs_review": false,
+      "validation_issues": []
+    },
+    {
+      "transaction_id": "96afc4c4-538a-41c1-ba4a-283ec4bb0aa8",
+      "date": "2026-01-10",
+      "value_date": null,
+      "description": "HPCL PETROL PUMP MUMBAI REF1003 10/01/26",
+      "raw_description": "10/01/26 HPCL PETROL PUMP MUMBAI REF1003 10/01/26 2,000.00 72,550.00",
+      "debit": 2000.0,
+      "credit": null,
+      "amount": 2000.0,
+      "transaction_type": "debit",
+      "balance": 72550.0,
+      "currency": "INR",
+      "category": "Fuel",
+      "classification_method": "rule",
+      "classification_confidence": 0.95,
+      "matched_keywords": [
+        "petrol",
+        "hpcl"
+      ],
+      "source_page": 1,
+      "extraction_confidence": 0.95,
+      "row_valid": true,
+      "balance_check": true,
+      "needs_review": false,
+      "validation_issues": []
+    },
+    {
+      "transaction_id": "65371eb7-d18f-4ebe-87a9-9646f07b320e",
+      "date": "2026-01-15",
+      "value_date": null,
+      "description": "ELECTRICITY BILL BESCOM REF1004 15/01/26",
+      "raw_description": "15/01/26 ELECTRICITY BILL BESCOM REF1004 15/01/26 1,800.00 70,750.00",
+      "debit": 1800.0,
+      "credit": null,
+      "amount": 1800.0,
+      "transaction_type": "debit",
+      "balance": 70750.0,
+      "currency": "INR",
+      "category": "Utilities",
+      "classification_method": "rule",
+      "classification_confidence": 0.95,
+      "matched_keywords": [
+        "electricity",
+        "bescom"
+      ],
+      "source_page": 1,
+      "extraction_confidence": 0.95,
+      "row_valid": true,
+      "balance_check": true,
+      "needs_review": false,
+      "validation_issues": []
+    },
+    {
+      "transaction_id": "18572a24-4573-4dfd-82f8-436b1b80991d",
+      "date": "2026-01-20",
+      "value_date": null,
+      "description": "AMAZON RETAIL SHOPPING REF1005 20/01/26",
+      "raw_description": "20/01/26 AMAZON RETAIL SHOPPING REF1005 20/01/26 5,500.00 65,250.00",
+      "debit": 5500.0,
+      "credit": null,
+      "amount": 5500.0,
+      "transaction_type": "debit",
+      "balance": 65250.0,
+      "currency": "INR",
+      "category": "Shopping",
+      "classification_method": "rule",
+      "classification_confidence": 0.95,
+      "matched_keywords": [
+        "amazon",
+        "retail",
+        "shopping"
+      ],
+      "source_page": 1,
+      "extraction_confidence": 0.95,
+      "row_valid": true,
+      "balance_check": true,
+      "needs_review": false,
+      "validation_issues": []
+    },
+    {
+      "transaction_id": "cba75eaa-251a-4b91-bd64-5ff4b81830db",
+      "date": "2026-01-25",
+      "value_date": null,
+      "description": "HDFC BANK ANNUAL SERVICE CHARGES REF1006 25/01/26",
+      "raw_description": "25/01/26 HDFC BANK ANNUAL SERVICE CHARGES REF1006 25/01/26 200.00 65,050.00",
+      "debit": 200.0,
+      "credit": null,
+      "amount": 200.0,
+      "transaction_type": "debit",
+      "balance": 65050.0,
+      "currency": "INR",
+      "category": "Other",
+      "classification_method": "fallback",
+      "classification_confidence": 0.53,
+      "matched_keywords": [],
+      "source_page": 1,
+      "extraction_confidence": 0.95,
+      "row_valid": true,
+      "balance_check": true,
+      "needs_review": true,
+      "validation_issues": [
+        "Low confidence classification (Requires Review)"
+      ]
+    },
+    {
+      "transaction_id": "f82b7ec4-f930-4738-b87c-99e8b2324ede",
+      "date": "2026-01-28",
+      "value_date": null,
+      "description": "ATM CASH WITHDRAWAL MUMBAI REF1007 28/01/26",
+      "raw_description": "28/01/26 ATM CASH WITHDRAWAL MUMBAI REF1007 28/01/26 10,000.00 55,050.00",
+      "debit": 10000.0,
+      "credit": null,
+      "amount": 10000.0,
+      "transaction_type": "debit",
+      "balance": 55050.0,
+      "currency": "INR",
+      "category": "Cash Withdrawal",
+      "classification_method": "rule",
+      "classification_confidence": 0.9,
+      "matched_keywords": [
+        "cash withdrawal"
+      ],
+      "source_page": 1,
+      "extraction_confidence": 0.95,
+      "row_valid": true,
+      "balance_check": true,
+      "needs_review": false,
+      "validation_issues": []
+    },
+    {
+      "transaction_id": "4ddfda8b-5148-487a-8207-5a04c9c38524",
+      "date": "2026-01-30",
+      "value_date": null,
+      "description": "ZERODHA BROKING MUTUAL FUND SIP REF1008 30/01/26",
+      "raw_description": "30/01/26 ZERODHA BROKING MUTUAL FUND SIP REF1008 30/01/26 9,800.00 45,250.00",
+      "debit": 9800.0,
+      "credit": null,
+      "amount": 9800.0,
+      "transaction_type": "debit",
+      "balance": 45250.0,
+      "currency": "INR",
+      "category": "Investment",
+      "classification_method": "rule",
+      "classification_confidence": 0.95,
+      "matched_keywords": [
+        "zerodha",
+        "mutual fund",
+        "sip"
+      ],
+      "source_page": 1,
+      "extraction_confidence": 0.95,
+      "row_valid": true,
+      "balance_check": true,
+      "needs_review": false,
+      "validation_issues": []
+    }
+  ],
+  "validation_report": {
+    "total_rows": 8,
+    "valid_rows": 8,
+    "invalid_rows": 0,
+    "balance_check_pass_rate": 100.0,
+    "duplicate_count": 0,
+    "opening_balance_matched": true,
+    "closing_balance_matched": true,
+    "warnings": []
+  },
+  "classification_summary": [
+    {
+      "category": "Food",
+      "count": 1,
+      "total_debit": 450.0,
+      "total_credit": 0.0
+    },
+    {
+      "category": "Salary",
+      "count": 1,
+      "total_debit": 0.0,
+      "total_credit": 25000.0
+    },
+    {
+      "category": "Fuel",
+      "count": 1,
+      "total_debit": 2000.0,
+      "total_credit": 0.0
+    },
+    {
+      "category": "Utilities",
+      "count": 1,
+      "total_debit": 1800.0,
+      "total_credit": 0.0
+    },
+    {
+      "category": "Shopping",
+      "count": 1,
+      "total_debit": 5500.0,
+      "total_credit": 0.0
+    },
+    {
+      "category": "Other",
+      "count": 1,
+      "total_debit": 200.0,
+      "total_credit": 0.0
+    },
+    {
+      "category": "Cash Withdrawal",
+      "count": 1,
+      "total_debit": 10000.0,
+      "total_credit": 0.0
+    },
+    {
+      "category": "Investment",
+      "count": 1,
+      "total_debit": 9800.0,
+      "total_credit": 0.0
+    }
+  ],
+  "page_types": [
+    {
+      "page_number": 1,
+      "page_type": "text",
+      "character_count": 711
+    }
+  ]
+}

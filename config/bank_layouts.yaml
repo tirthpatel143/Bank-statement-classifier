@@ -1,0 +1,91 @@
+banks:
+  hdfc:
+    name: "HDFC Bank"
+    identifiers:
+      - "HDFC BANK"
+      - "HDFC BANK LIMITED"
+      - "www.hdfcbank.com"
+    column_headers:
+      - "Date"
+      - "Narration"
+      - "Chq/Ref No"
+      - "Value Dt"
+      - "Withdrawal Amt"
+      - "Deposit Amt"
+      - "Closing Balance"
+    date_formats:
+      - "%d/%m/%y"
+      - "%d/%m/%Y"
+
+  icici:
+    name: "ICICI Bank"
+    identifiers:
+      - "ICICI BANK"
+      - "ICICI BANK LIMITED"
+      - "www.icicibank.com"
+    column_headers:
+      - "S No"
+      - "Value Date"
+      - "Transaction Date"
+      - "Cheque Number"
+      - "Transaction Remarks"
+      - "Withdrawal Amount"
+      - "Deposit Amount"
+      - "Balance"
+    date_formats:
+      - "%d-%m-%Y"
+      - "%d/%m/%Y"
+
+  sbi:
+    name: "State Bank of India"
+    identifiers:
+      - "STATE BANK OF INDIA"
+      - "SBI"
+      - "sbi.co.in"
+    column_headers:
+      - "Txn Date"
+      - "Value Date"
+      - "Description"
+      - "Ref No./Cheque No."
+      - "Branch Code"
+      - "Debit"
+      - "Credit"
+      - "Balance"
+    date_formats:
+      - "%d %b %Y"
+      - "%d/%m/%Y"
+
+  axis:
+    name: "Axis Bank"
+    identifiers:
+      - "AXIS BANK"
+      - "AXIS BANK LTD"
+      - "axisbank.com"
+    column_headers:
+      - "Tran Date"
+      - "CHQNO"
+      - "Particulars"
+      - "DR"
+      - "CR"
+      - "Bal"
+    date_formats:
+      - "%d-%m-%Y"
+      - "%d/%m/%Y"
+
+  kotak:
+    name: "Kotak Mahindra Bank"
+    identifiers:
+      - "KOTAK MAHINDRA BANK"
+      - "KOTAK BANK"
+      - "kotak.com"
+    column_headers:
+      - "Sl. No."
+      - "Date"
+      - "Transaction Details"
+      - "Chq / Ref No."
+      - "Amount"
+      - "Dr / Cr"
+      - "Balance"
+    date_formats:
+      - "%d/%m/%Y"
+      - "%d-%b-%Y"

@@ -1,0 +1,213 @@
+categories:
+  refund:
+    priority: 1
+    keywords:
+      - refund
+      - reversed
+      - reversal
+      - cash back
+      - cashback
+
+  salary:
+    priority: 2
+    keywords:
+      - salary
+      - payroll
+      - employer
+      - remuneration
+      - monthly pay
+      - stipend
+
+  loan_emi:
+    priority: 3
+    keywords:
+      - emi
+      - loan
+      - home loan
+      - car loan
+      - personal loan
+      - mortgage
+      - bajaj finserv
+      - hdfc bank loan
+
+  rent:
+    priority: 4
+    keywords:
+      - rent
+      - lease
+      - house rent
+      - maintenance charge
+      - society maintenance
+
+  bank_charges:
+    priority: 5
+    keywords:
+      - bank charge
+      - service tax
+      - gst charge
+      - chq charge
+      - amb charge
+      - annual fee
+      - processing fee
+      - penality charge
+      - minimum balance
+
+  cash_withdrawal:
+    priority: 6
+    keywords:
+      - atm wdl
+      - atm withdrawal
+      - cash wdl
+      - cash withdrawal
+      - self withdrawal
+
+  cash_deposit:
+    priority: 7
+    keywords:
+      - cash deposit
+      - cdm deposit
+      - cash dep
+
+  food:
+    priority: 8
+    keywords:
+      - swiggy
+      - zomato
+      - restaurant
+      - cafe
+      - mcdonald
+      - dominos
+      - starbucks
+      - kfc
+      - food
+      - bakery
+      - diner
+      - pizza
+
+  fuel:
+    priority: 9
+    keywords:
+      - petrol
+      - diesel
+      - hpcl
+      - bpcl
+      - iocl
+      - shell
+      - fuel station
+      - auto fuel
+
+  utilities:
+    priority: 10
+    keywords:
+      - electricity
+      - gas bill
+      - water bill
+      - broadband
+      - airtel
+      - jio
+      - vi bill
+      - tata play
+      - bescom
+      - msedcl
+
+  shopping:
+    priority: 11
+    keywords:
+      - amazon
+      - flipkart
+      - myntra
+      - ajio
+      - dmart
+      - reliance
+      - retail
+      - shopping
+      - decathlon
+      - zara
+      - uniqlo
+
+  transport:
+    priority: 12
+    keywords:
+      - uber
+      - ola
+      - rapido
+      - metro
+      - irctc
+      - redbus
+      - indigo
+      - air india
+      - fastag
+
+  healthcare:
+    priority: 13
+    keywords:
+      - hospital
+      - pharmacy
+      - apollo
+      - medplus
+      - clinic
+      - lab
+      - doctor
+      - wellness
+
+  insurance:
+    priority: 14
+    keywords:
+      - insurance
+      - lic
+      - hdfc ergo
+      - icici lombard
+      - max bupa
+      - star health
+      - premium
+
+  entertainment:
+    priority: 15
+    keywords:
+      - netflix
+      - spotify
+      - prime video
+      - hotstar
+      - bookmyshow
+      - cinema
+      - steam
+      - youtube
+
+  education:
+    priority: 16
+    keywords:
+      - school
+      - college
+      - university
+      - udemy
+      - coursera
+      - tuition
+      - fee payment
+
+  investment:
+    priority: 17
+    keywords:
+      - zerodha
+      - groww
+      - mutual fund
+      - sip
+      - upstox
+      - coin
+      - nse
+      - bse
+      - stock
+
+  transfer:
+    priority: 18
+    keywords:
+      - upi
+      - neft
+      - rtgs
+      - imps
+      - transfer
+      - sent to
+      - payment from
+
+  other:
+    priority: 99
+    keywords: []
