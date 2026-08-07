@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { 
   Upload, FileText, CheckCircle2, AlertTriangle, Download, 
   RefreshCw, Layers, ShieldCheck, Tag, Search, Filter, Save, Sparkles, Building2, CreditCard, DollarSign,
-  ArrowRight, Shield, Zap, Cpu, BarChart3, Database, FileSpreadsheet, ExternalLink, Eye, X, Info, Code, Play, ArrowDownLeft, ArrowUpRight
+  ArrowRight, Shield, Zap, Cpu, BarChart3, Database, FileSpreadsheet, ExternalLink, Eye, X, Info, Code, Play, ArrowDownLeft, ArrowUpRight, Check
 } from 'lucide-react';
 
 const API_BASE = '/api';
@@ -28,8 +28,54 @@ export default function App() {
   const [savingEdits, setSavingEdits] = useState(false);
   const [retraining, setRetraining] = useState(false);
 
-  // Live Preview Widget active tab state for Home Page
-  const [previewBank, setPreviewBank] = useState('sbi');
+  // Hero Interactive Live Simulator State
+  const [heroSimBank, setHeroSimBank] = useState('sbi');
+  const [heroSimLoading, setHeroSimLoading] = useState(false);
+
+  const sampleBankData = {
+    sbi: {
+      bank: "State Bank of India",
+      holder: "Ankit Tirthpatel",
+      accountNo: "XXXX XXXX 6394",
+      ifsc: "SBIN0001234",
+      balance: "₹1,42,850.00",
+      period: "01 Jan 2026 - 31 Jan 2026",
+      transactions: [
+        { desc: "SWIGGY FOOD ORDER", sender: "Self", recipient: "Swiggy", amount: "- ₹450.00", type: "debit", cat: "Food" },
+        { desc: "ACME CORP SALARY DEPOSIT", sender: "ACME Corp", recipient: "Self", amount: "+ ₹50,000.00", type: "credit", cat: "Salary" },
+        { desc: "HPCL PETROL PUMP", sender: "Self", recipient: "HPCL Petrol Station", amount: "- ₹2,000.00", type: "debit", cat: "Fuel" }
+      ],
+      stats: { food: 450, salary: 50000, fuel: 2000 }
+    },
+    hdfc: {
+      bank: "HDFC Bank Limited",
+      holder: "Swati Sharma",
+      accountNo: "XXXX XXXX 7890",
+      ifsc: "HDFC0000240",
+      balance: "₹2,88,400.50",
+      period: "01 Dec 2025 - 31 Dec 2025",
+      transactions: [
+        { desc: "AMAZON SHOPPING INDIA", sender: "Self", recipient: "Amazon Retail", amount: "- ₹3,499.00", type: "debit", cat: "Shopping" },
+        { desc: "ZERODHA BROKING MUTUAL FUND", sender: "Zerodha Broking", recipient: "Self", amount: "+ ₹12,500.00", type: "credit", cat: "Investment" },
+        { desc: "BESCOM ELECTRICITY BILL", sender: "Self", recipient: "BESCOM Utility", amount: "- ₹1,850.00", type: "debit", cat: "Utilities" }
+      ],
+      stats: { shopping: 3499, investment: 12500, utilities: 1850 }
+    },
+    icici: {
+      bank: "ICICI Bank Limited",
+      holder: "Rajesh Kumar",
+      accountNo: "XXXX XXXX 4120",
+      ifsc: "ICIC0000102",
+      balance: "₹95,210.00",
+      period: "15 Jan 2026 - 05 Feb 2026",
+      transactions: [
+        { desc: "ZOMATO RESTAURANT ORDER", sender: "Self", recipient: "Zomato", amount: "- ₹680.00", type: "debit", cat: "Food" },
+        { desc: "FREELANCE CONSULTING FEE", sender: "TechCorp Inc", recipient: "Self", amount: "+ ₹35,000.00", type: "credit", cat: "Salary" },
+        { desc: "BOOKMYSHOW MOVIE TICKETS", sender: "Self", recipient: "BookMyShow", amount: "- ₹1,100.00", type: "debit", cat: "Entertainment" }
+      ],
+      stats: { food: 680, salary: 35000, entertainment: 1100 }
+    }
+  };
 
   const categoriesList = [
     "ALL", "Food", "Fuel", "Salary", "Utilities", "Shopping", "Transport", 
@@ -123,6 +169,14 @@ export default function App() {
       codeSnippet: `writer = pd.ExcelWriter(buffer, engine='openpyxl')\ndf_txs.to_excel(writer, sheet_name='Transactions')\ndf_account.to_excel(writer, sheet_name='Account Details')`,
       badgeText: "4-Sheet Workbook"
     }
+  };
+
+  const handleHeroBankSwitch = (bankKey) => {
+    setHeroSimLoading(true);
+    setHeroSimBank(bankKey);
+    setTimeout(() => {
+      setHeroSimLoading(false);
+    }, 300);
   };
 
   // Drag and drop handlers
@@ -304,11 +358,13 @@ export default function App() {
     return matchesSearch && matchesCat && matchesReview;
   });
 
+  const activeSim = sampleBankData[heroSimBank];
+
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative' }}>
       
       {/* Universal Modern Navbar */}
-      <nav style={{ background: '#ffffff', borderBottom: '1px solid var(--border-color)', position: 'sticky', top: 0, zIndex: 100, boxShadow: '0 2px 10px rgba(0,0,0,0.03)' }}>
+      <nav style={{ background: 'rgba(255, 255, 255, 0.92)', backdropFilter: 'blur(16px)', borderBottom: '1px solid var(--border-color)', position: 'sticky', top: 0, zIndex: 100, boxShadow: '0 4px 15px rgba(0,0,0,0.03)' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0.85rem 1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           
           {/* Custom High-Tech App Logo & Branding */}
@@ -365,31 +421,34 @@ export default function App() {
 
       {/* VIEW 1: Modern Dynamic Home Page */}
       {activeTab === 'home' && (
-        <div>
+        <div style={{ position: 'relative' }}>
           
+          {/* Ambient Glowing Halo */}
+          <div className="hero-ambient-glow" />
+
           {/* Hero Section with Interactive Live Widget */}
-          <section style={{ padding: '4.5rem 1.5rem 3rem', maxWidth: '1350px', margin: '0 auto' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '3rem', alignItems: 'center' }}>
+          <section style={{ padding: '4.5rem 1.5rem 3.5rem', maxWidth: '1350px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '3.5rem', alignItems: 'center' }}>
               
               {/* Left Column: Hero Copy */}
               <div>
                 <div className="badge badge-success" style={{ padding: '0.5rem 1.1rem', fontSize: '0.85rem', marginBottom: '1.5rem' }}>
-                  <Sparkles size={16} /> Next-Gen AI Financial Document Processing
+                  <Sparkles size={16} /> Enterprise Bank Statement Intelligence
                 </div>
 
-                <h1 style={{ fontSize: '3.2rem', fontWeight: 800, lineHeight: 1.15, letterSpacing: '-1px', marginBottom: '1.25rem' }}>
+                <h1 style={{ fontSize: '3.3rem', fontWeight: 800, lineHeight: 1.12, letterSpacing: '-1.2px', marginBottom: '1.25rem' }}>
                   Automated Bank Statement <br />
                   <span className="hero-gradient-text">Extraction & Party Intelligence</span>
                 </h1>
 
-                <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)', marginBottom: '2rem', lineHeight: 1.6 }}>
+                <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)', marginBottom: '2.25rem', lineHeight: 1.6 }}>
                   Upload bank statement PDFs from <strong>HDFC, SBI, ICICI, Axis, Kotak, or Generic banks</strong>. Automate page-by-page text & OCR extraction, party identification (Sender & Recipient), accounting balance continuity checks, hybrid ML categorization, and multi-sheet Excel exports.
                 </p>
 
-                <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '2.5rem' }}>
+                <div style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap', marginBottom: '2.5rem' }}>
                   <button 
                     className="glass-button" 
-                    style={{ padding: '0.85rem 1.85rem', fontSize: '1rem' }}
+                    style={{ padding: '0.9rem 2rem', fontSize: '1.05rem' }}
                     onClick={() => setActiveTab('workspace')}
                   >
                     Start Processing PDF <ArrowRight size={20} />
@@ -398,7 +457,7 @@ export default function App() {
                   <a 
                     href="#features" 
                     className="glass-button-secondary"
-                    style={{ padding: '0.85rem 1.75rem', fontSize: '1rem' }}
+                    style={{ padding: '0.9rem 1.75rem', fontSize: '1rem' }}
                   >
                     Explore Platform Features
                   </a>
@@ -412,91 +471,96 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Right Column: Live Interactive Preview Card Widget */}
-              <div className="live-preview-widget">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '0.75rem' }}>
-                  <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#064e3b', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <Eye size={16} color="var(--accent-primary)" /> Live Party Extraction Preview
-                  </span>
-                  
-                  {/* Bank Tab Toggle */}
-                  <div style={{ display: 'flex', gap: '0.35rem' }}>
+              {/* Right Column: Dynamic Interactive Live Simulator Widget */}
+              <div className="hero-interactive-card">
+                
+                {/* Header Toolbar */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '0.85rem' }}>
+                  <div>
+                    <span style={{ fontSize: '0.9rem', fontWeight: 800, color: '#064e3b', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                      <Zap size={18} color="var(--accent-primary)" /> Live Extraction Simulator
+                    </span>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block' }}>
+                      Select a sample statement to test real-time parsing
+                    </span>
+                  </div>
+
+                  {/* Simulator Bank Pills */}
+                  <div style={{ display: 'flex', gap: '0.35rem', background: '#f1f5f9', padding: '0.25rem', borderRadius: '10px' }}>
                     <button 
-                      onClick={() => setPreviewBank('sbi')}
-                      style={{ padding: '0.25rem 0.6rem', borderRadius: '6px', border: 'none', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer', background: previewBank === 'sbi' ? '#059669' : '#f1f5f9', color: previewBank === 'sbi' ? '#ffffff' : '#475569' }}
+                      onClick={() => handleHeroBankSwitch('sbi')}
+                      style={{ padding: '0.3rem 0.7rem', borderRadius: '7px', border: 'none', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer', background: heroSimBank === 'sbi' ? '#059669' : 'transparent', color: heroSimBank === 'sbi' ? '#ffffff' : '#475569', transition: 'all 0.2s ease' }}
                     >
                       SBI
                     </button>
                     <button 
-                      onClick={() => setPreviewBank('hdfc')}
-                      style={{ padding: '0.25rem 0.6rem', borderRadius: '6px', border: 'none', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer', background: previewBank === 'hdfc' ? '#059669' : '#f1f5f9', color: previewBank === 'hdfc' ? '#ffffff' : '#475569' }}
+                      onClick={() => handleHeroBankSwitch('hdfc')}
+                      style={{ padding: '0.3rem 0.7rem', borderRadius: '7px', border: 'none', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer', background: heroSimBank === 'hdfc' ? '#059669' : 'transparent', color: heroSimBank === 'hdfc' ? '#ffffff' : '#475569', transition: 'all 0.2s ease' }}
                     >
                       HDFC
                     </button>
                     <button 
-                      onClick={() => setPreviewBank('icici')}
-                      style={{ padding: '0.25rem 0.6rem', borderRadius: '6px', border: 'none', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer', background: previewBank === 'icici' ? '#059669' : '#f1f5f9', color: previewBank === 'icici' ? '#ffffff' : '#475569' }}
+                      onClick={() => handleHeroBankSwitch('icici')}
+                      style={{ padding: '0.3rem 0.7rem', borderRadius: '7px', border: 'none', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer', background: heroSimBank === 'icici' ? '#059669' : 'transparent', color: heroSimBank === 'icici' ? '#ffffff' : '#475569', transition: 'all 0.2s ease' }}
                     >
                       ICICI
                     </button>
                   </div>
                 </div>
 
-                {/* Preview Account Metadata Card */}
-                <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: 'var(--radius-md)', marginBottom: '1rem', border: '1px solid #e2e8f0', fontSize: '0.85rem' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
-                    <span style={{ color: 'var(--text-muted)' }}>Bank:</span>
-                    <strong>{previewBank === 'sbi' ? 'State Bank of India' : previewBank === 'hdfc' ? 'HDFC Bank Limited' : 'ICICI Bank Limited'}</strong>
+                {heroSimLoading ? (
+                  <div style={{ padding: '3rem 1rem', textAlign: 'center' }}>
+                    <RefreshCw className="spin" size={32} color="var(--accent-primary)" style={{ margin: '0 auto 1rem' }} />
+                    <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', fontWeight: 600 }}>Executing Layout & Party Parsing Pipeline...</p>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
-                    <span style={{ color: 'var(--text-muted)' }}>Holder:</span>
-                    <strong>{previewBank === 'sbi' ? 'Ankit Tirthpatel' : previewBank === 'hdfc' ? 'Swati Sharma' : 'Rajesh Kumar'}</strong>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
-                    <span style={{ color: 'var(--text-muted)' }}>Account No:</span>
-                    <strong className="mono" style={{ color: 'var(--accent-primary)' }}>{previewBank === 'sbi' ? 'XXXX XXXX 6394' : previewBank === 'hdfc' ? 'XXXX XXXX 7890' : 'XXXX XXXX 4120'}</strong>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span style={{ color: 'var(--text-muted)' }}>IFSC:</span>
-                    <strong className="mono">{previewBank === 'sbi' ? 'SBIN0001234' : previewBank === 'hdfc' ? 'HDFC0000240' : 'ICIC0000102'}</strong>
-                  </div>
-                </div>
+                ) : (
+                  <div>
+                    {/* Account Header Badge */}
+                    <div style={{ background: '#f8fafc', padding: '1rem 1.25rem', borderRadius: 'var(--radius-md)', marginBottom: '1.25rem', border: '1px solid #e2e8f0', fontSize: '0.85rem' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                        <span style={{ color: 'var(--text-muted)' }}>Bank Detected:</span>
+                        <strong style={{ color: '#064e3b', fontSize: '0.95rem' }}>{activeSim.bank}</strong>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
+                        <span style={{ color: 'var(--text-muted)' }}>Account Holder:</span>
+                        <strong>{activeSim.holder}</strong>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
+                        <span style={{ color: 'var(--text-muted)' }}>Masked Account No:</span>
+                        <strong className="mono" style={{ color: 'var(--accent-primary)' }}>{activeSim.accountNo}</strong>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <span style={{ color: 'var(--text-muted)' }}>IFSC Code:</span>
+                        <strong className="mono">{activeSim.ifsc}</strong>
+                      </div>
+                    </div>
 
-                {/* Sample Transaction Party Preview Ticker */}
-                <div style={{ fontSize: '0.8rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  <div style={{ padding: '0.55rem 0.75rem', background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.2rem' }}>
-                      <span style={{ fontWeight: 700, color: '#064e3b' }}>SWIGGY FOOD ORDER</span>
-                      <span style={{ color: '#dc2626', fontWeight: 700 }}>- ₹450.00</span>
+                    {/* Extracted Transactions Party Ticker */}
+                    <div style={{ fontSize: '0.8rem', display: 'flex', flexDirection: 'column', gap: '0.65rem', marginBottom: '1.25rem' }}>
+                      {activeSim.transactions.map((t, idx) => (
+                        <div key={idx} style={{ padding: '0.65rem 0.85rem', background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '10px', boxShadow: '0 2px 6px rgba(0,0,0,0.02)' }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
+                            <span style={{ fontWeight: 700, color: '#064e3b' }}>{t.desc}</span>
+                            <span style={{ color: t.type === 'credit' ? '#059669' : '#dc2626', fontWeight: 700 }}>{t.amount}</span>
+                          </div>
+                          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.5rem' }}>
+                            <span><strong>Sender (From):</strong> <span style={{ color: t.type === 'credit' ? '#059669' : 'var(--text-main)', fontWeight: 600 }}>{t.sender}</span></span>
+                            <span><strong>Recipient (To):</strong> <span style={{ color: t.type === 'debit' ? '#dc2626' : 'var(--text-main)', fontWeight: 600 }}>{t.recipient}</span></span>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', justifyContent: 'space-between' }}>
-                      <span><strong>Sender (From):</strong> Self</span>
-                      <span><strong>Recipient (To):</strong> <span style={{ color: '#dc2626', fontWeight: 600 }}>Swiggy</span></span>
-                    </div>
-                  </div>
 
-                  <div style={{ padding: '0.55rem 0.75rem', background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.2rem' }}>
-                      <span style={{ fontWeight: 700, color: '#064e3b' }}>ACME CORP SALARY DEPOSIT</span>
-                      <span style={{ color: '#059669', fontWeight: 700 }}>+ ₹50,000.00</span>
-                    </div>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', justifyContent: 'space-between' }}>
-                      <span><strong>Sender (From):</strong> <span style={{ color: '#059669', fontWeight: 600 }}>ACME Corp</span></span>
-                      <span><strong>Recipient (To):</strong> Self</span>
-                    </div>
+                    {/* Action Bar */}
+                    <button 
+                      className="glass-button" 
+                      style={{ width: '100%', justifyContent: 'center', padding: '0.75rem', fontSize: '0.9rem' }}
+                      onClick={() => setActiveTab('workspace')}
+                    >
+                      <Sparkles size={16} /> Process Your Own PDF Document
+                    </button>
                   </div>
-
-                  <div style={{ padding: '0.55rem 0.75rem', background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.2rem' }}>
-                      <span style={{ fontWeight: 700, color: '#064e3b' }}>HPCL PETROL PUMP</span>
-                      <span style={{ color: '#dc2626', fontWeight: 700 }}>- ₹2,000.00</span>
-                    </div>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', justifyContent: 'space-between' }}>
-                      <span><strong>Sender (From):</strong> Self</span>
-                      <span><strong>Recipient (To):</strong> <span style={{ color: '#dc2626', fontWeight: 600 }}>HPCL Petrol Station</span></span>
-                    </div>
-                  </div>
-                </div>
+                )}
 
               </div>
 
