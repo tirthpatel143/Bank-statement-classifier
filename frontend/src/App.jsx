@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { 
   Upload, FileText, CheckCircle2, AlertTriangle, Download, 
   RefreshCw, Layers, ShieldCheck, Tag, Search, Filter, Save, Sparkles, Building2, CreditCard, DollarSign,
-  ArrowRight, Shield, Zap, Cpu, BarChart3, Database, FileSpreadsheet, ExternalLink, Eye, X, Info, Code, Play
+  ArrowRight, Shield, Zap, Cpu, BarChart3, Database, FileSpreadsheet, ExternalLink, Eye, X, Info, Code, Play, ArrowDownLeft, ArrowUpRight
 } from 'lucide-react';
 
 const API_BASE = '/api';
@@ -96,26 +96,26 @@ export default function App() {
       badgeText: "Rule + Scikit-Learn ML"
     },
     interactive_grid: {
-      title: "Interactive In-Browser Data Grid",
+      title: "Interactive In-Browser Data Grid with Party Extraction",
       icon: <Save size={32} color="#047857" />,
       tag: "Human-in-the-Loop Audit",
-      summary: "Inline editing of transaction dates, descriptions, debit, credit, balance, and category values directly in your browser.",
+      summary: "Inline editing of transaction dates, descriptions, Sender (Money From), Recipient (Money To), debit, credit, balance, and category values.",
       deepDive: [
+        "Automated Party Identification: Extracts who sent money (Sender) for credits and to whom money was sent (Recipient) for debits.",
         "Full inline editing capabilities for every extracted cell.",
         "Instant debits/credits balance re-calculation with 2 decimal precision rounding.",
-        "Real-time search filtering across descriptions, raw text, and date ranges.",
-        "Filter toggle to focus exclusively on 'Needs Review' flagged rows."
+        "Real-time search filtering across descriptions, raw text, and date ranges."
       ],
-      codeSnippet: `const handleCellEdit = (index, field, value) => {\n  const updated = [...editableTxs];\n  updated[index][field] = value;\n  setHasChanges(true);\n}`,
-      badgeText: "Real-time Editing"
+      codeSnippet: `if tx_type == "credit":\n    sender = parse_sender(description) # Who sent money\n    recipient = holder_name            # Credited to Self\nelse:\n    sender = holder_name               # Debited from Self\n    recipient = parse_recipient(description) # Who received money`,
+      badgeText: "Real-time Party Parsing"
     },
     excel_exporter: {
       title: "Multi-Sheet Excel & CSV Exporter",
       icon: <FileSpreadsheet size={32} color="#15803d" />,
       tag: "Formatted Exports",
-      summary: "Generates styled .xlsx workbooks containing 4 dedicated tabs: Transactions, Account Details, Validation Report, and Category Breakdown Summaries.",
+      summary: "Generates styled .xlsx workbooks containing 4 dedicated tabs: Transactions (with Sender & Recipient columns), Account Details, Validation Report, and Summaries.",
       deepDive: [
-        "Sheet 1 (Transactions): Styled transaction table with formatted currency and status badges.",
+        "Sheet 1 (Transactions): Styled table including Date, Description, Sender (Money From), Recipient (Money To), Debit, Credit, Balance, Category, Method, Status.",
         "Sheet 2 (Account Details): PDF-extracted bank name, holder name, account number, IFSC, and balances.",
         "Sheet 3 (Validation Report): Audit summary of balance pass rates, duplicate counts, and warnings.",
         "Sheet 4 (Classification Summary): Total debits and credits grouped by category."
@@ -296,6 +296,8 @@ export default function App() {
   const filteredTxs = editableTxs.filter(tx => {
     const matchesSearch = tx.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           tx.date.includes(searchQuery) ||
+                          (tx.sender && tx.sender.toLowerCase().includes(searchQuery.toLowerCase())) ||
+                          (tx.recipient && tx.recipient.toLowerCase().includes(searchQuery.toLowerCase())) ||
                           (tx.raw_description && tx.raw_description.toLowerCase().includes(searchQuery.toLowerCase()));
     const matchesCat = selectedCategory === 'ALL' || tx.category === selectedCategory;
     const matchesReview = !showNeedsReviewOnly || tx.needs_review;
@@ -377,11 +379,11 @@ export default function App() {
 
                 <h1 style={{ fontSize: '3.2rem', fontWeight: 800, lineHeight: 1.15, letterSpacing: '-1px', marginBottom: '1.25rem' }}>
                   Automated Bank Statement <br />
-                  <span className="hero-gradient-text">Extraction & ML Intelligence</span>
+                  <span className="hero-gradient-text">Extraction & Party Intelligence</span>
                 </h1>
 
                 <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)', marginBottom: '2rem', lineHeight: 1.6 }}>
-                  Upload bank statement PDFs from <strong>HDFC, SBI, ICICI, Axis, Kotak, or Generic banks</strong>. Automate page-by-page text & OCR extraction, accounting balance continuity checks, hybrid ML categorization, and multi-sheet Excel exports.
+                  Upload bank statement PDFs from <strong>HDFC, SBI, ICICI, Axis, Kotak, or Generic banks</strong>. Automate page-by-page text & OCR extraction, party identification (Sender & Recipient), accounting balance continuity checks, hybrid ML categorization, and multi-sheet Excel exports.
                 </p>
 
                 <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '2.5rem' }}>
@@ -404,7 +406,7 @@ export default function App() {
 
                 {/* Key Highlights */}
                 <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', fontSize: '0.875rem', color: 'var(--text-muted)' }}>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}><CheckCircle2 size={18} color="#059669" /> 100% Privacy Protection</span>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}><CheckCircle2 size={18} color="#059669" /> Sender & Recipient Extraction</span>
                   <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}><CheckCircle2 size={18} color="#059669" /> Automatic Bank Detection</span>
                   <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}><CheckCircle2 size={18} color="#059669" /> 4-Sheet Excel Export</span>
                 </div>
@@ -414,7 +416,7 @@ export default function App() {
               <div className="live-preview-widget">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '0.75rem' }}>
                   <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#064e3b', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <Eye size={16} color="var(--accent-primary)" /> Live Extraction Preview
+                    <Eye size={16} color="var(--accent-primary)" /> Live Party Extraction Preview
                   </span>
                   
                   {/* Bank Tab Toggle */}
@@ -460,30 +462,39 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Sample Transaction Preview Ticker */}
+                {/* Sample Transaction Party Preview Ticker */}
                 <div style={{ fontSize: '0.8rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  <div style={{ padding: '0.5rem 0.75rem', background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div>
-                      <div style={{ fontWeight: 600 }}>SWIGGY FOOD ORDER</div>
-                      <div style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>2026-01-02 • <span className="badge badge-info" style={{ padding: '0.1rem 0.4rem', fontSize: '0.65rem' }}>Food</span></div>
+                  <div style={{ padding: '0.55rem 0.75rem', background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.2rem' }}>
+                      <span style={{ fontWeight: 700, color: '#064e3b' }}>SWIGGY FOOD ORDER</span>
+                      <span style={{ color: '#dc2626', fontWeight: 700 }}>- ₹450.00</span>
                     </div>
-                    <span style={{ color: '#dc2626', fontWeight: 700 }}>- ₹450.00</span>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', justifyContent: 'space-between' }}>
+                      <span><strong>Sender (From):</strong> Self</span>
+                      <span><strong>Recipient (To):</strong> <span style={{ color: '#dc2626', fontWeight: 600 }}>Swiggy</span></span>
+                    </div>
                   </div>
 
-                  <div style={{ padding: '0.5rem 0.75rem', background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div>
-                      <div style={{ fontWeight: 600 }}>ACME CORP SALARY DEPOSIT</div>
-                      <div style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>2026-01-05 • <span className="badge badge-success" style={{ padding: '0.1rem 0.4rem', fontSize: '0.65rem' }}>Salary</span></div>
+                  <div style={{ padding: '0.55rem 0.75rem', background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.2rem' }}>
+                      <span style={{ fontWeight: 700, color: '#064e3b' }}>ACME CORP SALARY DEPOSIT</span>
+                      <span style={{ color: '#059669', fontWeight: 700 }}>+ ₹50,000.00</span>
                     </div>
-                    <span style={{ color: '#059669', fontWeight: 700 }}>+ ₹50,000.00</span>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', justifyContent: 'space-between' }}>
+                      <span><strong>Sender (From):</strong> <span style={{ color: '#059669', fontWeight: 600 }}>ACME Corp</span></span>
+                      <span><strong>Recipient (To):</strong> Self</span>
+                    </div>
                   </div>
 
-                  <div style={{ padding: '0.5rem 0.75rem', background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div>
-                      <div style={{ fontWeight: 600 }}>HPCL PETROL PUMP</div>
-                      <div style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>2026-01-10 • <span className="badge badge-warning" style={{ padding: '0.1rem 0.4rem', fontSize: '0.65rem' }}>Fuel</span></div>
+                  <div style={{ padding: '0.55rem 0.75rem', background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.2rem' }}>
+                      <span style={{ fontWeight: 700, color: '#064e3b' }}>HPCL PETROL PUMP</span>
+                      <span style={{ color: '#dc2626', fontWeight: 700 }}>- ₹2,000.00</span>
                     </div>
-                    <span style={{ color: '#dc2626', fontWeight: 700 }}>- ₹2,000.00</span>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', justifyContent: 'space-between' }}>
+                      <span><strong>Sender (From):</strong> Self</span>
+                      <span><strong>Recipient (To):</strong> <span style={{ color: '#dc2626', fontWeight: 600 }}>HPCL Petrol Station</span></span>
+                    </div>
                   </div>
                 </div>
 
@@ -643,10 +654,10 @@ export default function App() {
                     <Save size={28} />
                   </div>
                   <h3 style={{ fontSize: '1.3rem', fontWeight: 700, marginBottom: '0.65rem', color: '#064e3b' }}>
-                    Interactive Data Grid & Retraining
+                    Sender & Recipient Extraction Grid
                   </h3>
                   <p style={{ fontSize: '0.925rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>
-                    Edit transaction dates, descriptions, debit, credit, balance, or categories in browser. Submit edits to trigger live model retraining (<code className="mono">/api/retrain</code>).
+                    Identifies who sent money (Sender) for credits and to whom money was sent (Recipient) for debits. Allows inline cell editing and model retraining (<code className="mono">/api/retrain</code>).
                   </p>
                 </div>
                 <div className="card-click-hint">Click to Inspect Technical Details →</div>
@@ -665,7 +676,7 @@ export default function App() {
                     Multi-Sheet Excel Workbook Export
                   </h3>
                   <p style={{ fontSize: '0.925rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>
-                    Generates styled <code className="mono">.xlsx</code> workbooks containing 4 dedicated tabs: Transactions, Account Details, Validation Report, and Summaries.
+                    Generates styled <code className="mono">.xlsx</code> workbooks containing 4 dedicated tabs: Transactions (with Sender & Recipient), Account Details, Validation Report, and Summaries.
                   </p>
                 </div>
                 <div className="card-click-hint">Click to Inspect Technical Details →</div>
@@ -940,7 +951,7 @@ export default function App() {
                     <Search size={18} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
                     <input 
                       type="text"
-                      placeholder="Search descriptions, raw text, or dates..."
+                      placeholder="Search descriptions, sender, recipient, or dates..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className="input-cell"
@@ -977,19 +988,21 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Interactive Editable Transactions Data Grid */}
+              {/* Interactive Editable Transactions Data Grid with Sender & Recipient Columns */}
               <div className="glass-panel" style={{ overflowX: 'auto', marginBottom: '2.5rem' }}>
                 <table className="data-table">
                   <thead>
                     <tr>
-                      <th style={{ width: '110px' }}>Date</th>
-                      <th style={{ minWidth: '240px' }}>Description</th>
-                      <th style={{ width: '120px', textAlign: 'right' }}>Debit</th>
-                      <th style={{ width: '120px', textAlign: 'right' }}>Credit</th>
-                      <th style={{ width: '130px', textAlign: 'right' }}>Balance</th>
-                      <th style={{ width: '150px' }}>Category</th>
-                      <th style={{ width: '110px', textAlign: 'center' }}>Method</th>
-                      <th style={{ width: '110px', textAlign: 'center' }}>Status</th>
+                      <th style={{ width: '105px' }}>Date</th>
+                      <th style={{ minWidth: '220px' }}>Description</th>
+                      <th style={{ minWidth: '150px' }}>Sender (Money From)</th>
+                      <th style={{ minWidth: '150px' }}>Recipient (Money To)</th>
+                      <th style={{ width: '115px', textAlign: 'right' }}>Debit</th>
+                      <th style={{ width: '115px', textAlign: 'right' }}>Credit</th>
+                      <th style={{ width: '120px', textAlign: 'right' }}>Balance</th>
+                      <th style={{ width: '140px' }}>Category</th>
+                      <th style={{ width: '100px', textAlign: 'center' }}>Method</th>
+                      <th style={{ width: '100px', textAlign: 'center' }}>Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1019,6 +1032,28 @@ export default function App() {
                               onChange={(e) => handleCellEdit(idx, 'description', e.target.value)}
                               className="input-cell"
                               style={{ fontWeight: 500 }}
+                            />
+                          </td>
+
+                          {/* Sender (Money From) */}
+                          <td>
+                            <input 
+                              type="text" 
+                              value={tx.sender || 'Self'} 
+                              onChange={(e) => handleCellEdit(idx, 'sender', e.target.value)}
+                              className="input-cell"
+                              style={{ fontSize: '0.8rem', color: tx.credit ? '#059669' : 'var(--text-muted)', fontWeight: tx.credit ? 600 : 400 }}
+                            />
+                          </td>
+
+                          {/* Recipient (Money To) */}
+                          <td>
+                            <input 
+                              type="text" 
+                              value={tx.recipient || 'Self'} 
+                              onChange={(e) => handleCellEdit(idx, 'recipient', e.target.value)}
+                              className="input-cell"
+                              style={{ fontSize: '0.8rem', color: tx.debit ? '#dc2626' : 'var(--text-muted)', fontWeight: tx.debit ? 600 : 400 }}
                             />
                           </td>
 

@@ -9,6 +9,7 @@ from app.extraction.pdf_detector import detect_pdf_page_types
 from app.extraction.text_extractor import extract_pdf_pages_text, get_full_text
 from app.extraction.ocr_extractor import ocr_process_pdf_page
 from app.extraction.table_extractor import extract_tables_from_pdf
+from app.extraction.party_extractor import extract_party_details
 from app.parsers.layout_detector import select_best_parser
 from app.parsers.generic import GenericParser
 from app.validation.transaction_checks import validate_transactions
@@ -26,12 +27,12 @@ hybrid_classifier = HybridClassifier()
 @router.post("/process/{job_id}", response_model=StatementProcessResult)
 def process_statement(job_id: str):
     """
-    Executes complete bank statement extraction pipeline with multi-layer fallback:
+    Executes complete bank statement extraction pipeline:
     1. Validating & page type detection
     2. Text & OCR extraction
     3. Bank & layout detection
     4. Account details & transactions extraction
-    5. Automatic Fallback to Generic & Table Extractor if primary parser extracts 0 rows
+    5. Automatic party extraction (Sender / Recipient identification)
     6. Accounting validation checks
     7. Hybrid classification
     """
@@ -67,7 +68,6 @@ def process_statement(job_id: str):
         
         pages_data = extract_pdf_pages_text(file_path)
         
-        # Apply OCR to image pages if any
         for idx, pt in enumerate(page_types):
             if pt.page_type == "image":
                 ocr_text = ocr_process_pdf_page(file_path, pt.page_number)
@@ -95,6 +95,17 @@ def process_statement(job_id: str):
                 transactions = fallback_txs
                 parser = generic_parser
                 confidence = 0.70
+
+        # Extract Sender and Recipient for each transaction
+        holder_name = account_details.account_holder.value or "Self"
+        for tx in transactions:
+            sender_party, recipient_party = extract_party_details(
+                description=tx.description,
+                tx_type=tx.transaction_type,
+                account_holder=holder_name
+            )
+            tx.sender = sender_party
+            tx.recipient = recipient_party
 
         # Step 6: Accounting validation suite
         job_status.message = "Running accounting validation checks..."

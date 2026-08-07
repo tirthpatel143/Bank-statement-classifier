@@ -42,4 +42,4 @@ def test_upload_and_process_flow():
     # Export CSV
     csv_resp = client.get(f"/api/export/csv/{job_id}")
     assert csv_resp.status_code == 200
-    assert "date,description,debit,credit,balance,category,classification_method,status" in csv_resp.text
+    assert "date,description,sender,recipient,debit,credit,balance,category,classification_method,status" in csv_resp.text

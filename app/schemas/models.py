@@ -27,6 +27,8 @@ class Transaction(BaseModel):
     value_date: Optional[str] = None
     description: str
     raw_description: str
+    sender: Optional[str] = "Self"        # Money Credited From (Party who sent money)
+    recipient: Optional[str] = "Self"     # Money Debited To (Party who received money)
     debit: Optional[float] = None
     credit: Optional[float] = None
     amount: float
@@ -69,8 +71,8 @@ class ProcessingStatus(BaseModel):
     job_id: str
     file_hash: str
     file_name: str
-    status: str  # "uploaded", "validating", "extracting", "classifying", "completed", "needs_review", "failed"
-    step_progress: int = 0  # 0 to 100
+    status: str
+    step_progress: int = 0
     message: str = "Initialized"
     total_pages: int = 0
     detected_bank: Optional[str] = None

@@ -2,13 +2,13 @@ import io
 import pandas as pd
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Union
 from app.schemas.models import StatementProcessResult, Transaction
 
 def export_to_excel(result: StatementProcessResult) -> bytes:
     """
     Generates a multi-sheet formatted Excel workbook containing:
-    Sheet 1: Transactions
+    Sheet 1: Transactions (with Sender & Recipient columns)
     Sheet 2: Account Details
     Sheet 3: Validation Report
     Sheet 4: Category Summary
@@ -29,8 +29,8 @@ def export_to_excel(result: StatementProcessResult) -> bytes:
     # -------------------------------------------------------------
     ws_tx = wb.create_sheet(title="Transactions")
     tx_headers = [
-        "Date", "Description", "Debit", "Credit", "Balance",
-        "Category", "Method", "Status"
+        "Date", "Description", "Sender (Money From)", "Recipient (Money To)", 
+        "Debit", "Credit", "Balance", "Category", "Method", "Status"
     ]
     ws_tx.append(tx_headers)
 
@@ -45,6 +45,8 @@ def export_to_excel(result: StatementProcessResult) -> bytes:
         row = [
             tx.date,
             tx.description,
+            tx.sender or "Self",
+            tx.recipient or "Self",
             tx.debit if tx.debit is not None else "",
             tx.credit if tx.credit is not None else "",
             tx.balance,
@@ -54,20 +56,28 @@ def export_to_excel(result: StatementProcessResult) -> bytes:
         ]
         ws_tx.append(row)
 
-    for row in ws_tx.iter_rows(min_row=2, max_row=ws_tx.max_row, min_col=1, max_col=8):
+    for row in ws_tx.iter_rows(min_row=2, max_row=ws_tx.max_row, min_col=1, max_col=10):
         row[0].alignment = center_align
         row[1].alignment = left_align
-        row[2].number_format = "#,##0.00"
-        row[2].alignment = right_align
-        row[3].number_format = "#,##0.00"
-        row[3].alignment = right_align
+        row[2].alignment = left_align
+        row[3].alignment = left_align
         row[4].number_format = "#,##0.00"
         row[4].alignment = right_align
-        row[5].alignment = center_align
-        row[6].alignment = center_align
+        row[5].number_format = "#,##0.00"
+        row[5].alignment = right_align
+        row[6].number_format = "#,##0.00"
+        row[6].alignment = right_align
         row[7].alignment = center_align
+        row[8].alignment = center_align
+        row[9].alignment = center_align
         for cell in row:
             cell.border = thin_border
+
+    # Auto-fit column widths
+    for col in ws_tx.columns:
+        max_len = max(len(str(cell.value or '')) for cell in col)
+        col_letter = openpyxl.utils.get_column_letter(col[0].column)
+        ws_tx.column_dimensions[col_letter].width = max(max_len + 3, 12)
 
     # -------------------------------------------------------------
     # Sheet 2: Account Details
@@ -99,55 +109,61 @@ def export_to_excel(result: StatementProcessResult) -> bytes:
         row[1].alignment = left_align
         for cell in row:
             cell.border = thin_border
+    ws_acc.column_dimensions['A'].width = 25
+    ws_acc.column_dimensions['B'].width = 35
 
     # -------------------------------------------------------------
     # Sheet 3: Validation Report
     # -------------------------------------------------------------
     ws_val = wb.create_sheet(title="Validation Report")
-    ws_val.append(["Validation Metric / Warning", "Status / Details"])
+    ws_val.append(["Check Name", "Status", "Details"])
     for cell in ws_val[1]:
         cell.font = header_font
         cell.fill = header_fill
         cell.alignment = center_align
 
-    val = result.validation_report
+    vr = result.validation_report
     val_rows = [
-        ["Total Transactions Extracted", str(val.total_rows)],
-        ["Valid Rows", str(val.valid_rows)],
-        ["Rows Requiring Review", str(val.invalid_rows)],
-        ["Balance Pass Rate", f"{val.balance_check_pass_rate}%"],
-        ["Duplicate Rows Detected", str(val.duplicate_count)],
-        ["Closing Balance Match Status", "PASS" if val.closing_balance_matched else "MISMATCH / WARN"]
+        ["Total Processed Rows", "Info", vr.total_rows],
+        ["Valid Rows", "Pass" if vr.valid_rows == vr.total_rows else "Review", vr.valid_rows],
+        ["Rows Needing Review", "Warning" if vr.invalid_rows > 0 else "Pass", vr.invalid_rows],
+        ["Balance Pass Rate", "Pass" if vr.balance_check_pass_rate >= 95 else "Warning", f"{vr.balance_check_pass_rate}%"],
+        ["Duplicate Rows Flagged", "Info", vr.duplicate_count],
+        ["Opening Balance Reconciled", "Pass" if vr.opening_balance_matched else "Warning", str(vr.opening_balance_matched)],
+        ["Closing Balance Reconciled", "Pass" if vr.closing_balance_matched else "Warning", str(vr.closing_balance_matched)]
     ]
     for r in val_rows:
         ws_val.append(r)
 
-    if val.warnings:
-        ws_val.append([])
-        ws_val.append(["System Warning Log", "Message"])
-        for w in val.warnings:
-            ws_val.append(["Warning", w])
-
-    for row in ws_val.iter_rows(min_row=2, max_row=ws_val.max_row, min_col=1, max_col=2):
+    for row in ws_val.iter_rows(min_row=2, max_row=ws_val.max_row, min_col=1, max_col=3):
         row[0].alignment = left_align
-        row[1].alignment = left_align
+        row[1].alignment = center_align
+        row[2].alignment = left_align
         for cell in row:
             cell.border = thin_border
+    ws_val.column_dimensions['A'].width = 30
+    ws_val.column_dimensions['B'].width = 15
+    ws_val.column_dimensions['C'].width = 40
 
     # -------------------------------------------------------------
     # Sheet 4: Category Summary
     # -------------------------------------------------------------
-    ws_cls = wb.create_sheet(title="Category Summary")
-    ws_cls.append(["Category", "Transaction Count", "Total Debit", "Total Credit"])
-    for cell in ws_cls[1]:
+    ws_cat = wb.create_sheet(title="Category Summary")
+    ws_cat.append(["Category", "Transaction Count", "Total Debit (₹)", "Total Credit (₹)"])
+    for cell in ws_cat[1]:
         cell.font = header_font
         cell.fill = header_fill
         cell.alignment = center_align
 
     for cs in result.classification_summary:
-        ws_cls.append([cs.category, cs.count, cs.total_debit, cs.total_credit])
+        ws_cat.append([
+            cs.category,
+            cs.count,
+            cs.total_debit,
+            cs.total_credit
+        ])
 
-    for row in ws_cls.iter_rows(min_row=2, max_row=ws_cls.max_row, min_col=1, max_col=4):
+    for row in ws_cat.iter_rows(min_row=2, max_row=ws_cat.max_row, min_col=1, max_col=4):
         row[0].alignment = left_align
         row[1].alignment = center_align
         row[2].number_format = "#,##0.00"
@@ -157,33 +173,26 @@ def export_to_excel(result: StatementProcessResult) -> bytes:
         for cell in row:
             cell.border = thin_border
 
-    # Auto-adjust column widths
-    for sheet in wb.worksheets:
-        for col in sheet.columns:
-            max_len = 0
-            col_letter = col[0].column_letter
-            for cell in col:
-                val_str = str(cell.value or '')
-                max_len = max(max_len, len(val_str))
-            sheet.column_dimensions[col_letter].width = max(max_len + 4, 12)
+    output = io.BytesIO()
+    wb.save(output)
+    output.seek(0)
+    return output.getvalue()
 
-    stream = io.BytesIO()
-    wb.save(stream)
-    stream.seek(0)
-    return stream.getvalue()
-
-def export_to_csv(transactions: List[Transaction]) -> str:
+def export_to_csv(result_or_txs: Union[StatementProcessResult, List[Transaction]]) -> str:
     """
-    Exports transaction list to exact CSV format requested:
-    date,description,debit,credit,balance,category,classification_method,status
+    Generates CSV string representation of extracted transactions with Sender & Recipient columns.
+    Accepts either StatementProcessResult or List[Transaction].
     """
+    txs = result_or_txs.transactions if hasattr(result_or_txs, "transactions") else result_or_txs
     data = []
-    for tx in transactions:
+    for tx in txs:
         method = "Rule" if tx.classification_method == "rule" else ("ML model" if tx.classification_method == "ml" else "Manual")
         status = "Valid" if (tx.row_valid and tx.balance_check and not tx.needs_review) else "Needs Review"
         data.append({
             "date": tx.date,
             "description": tx.description,
+            "sender": tx.sender or "Self",
+            "recipient": tx.recipient or "Self",
             "debit": tx.debit if tx.debit is not None else "",
             "credit": tx.credit if tx.credit is not None else "",
             "balance": tx.balance,
