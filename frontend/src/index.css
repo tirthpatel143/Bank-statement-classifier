@@ -19,11 +19,13 @@
   --text-main: #0f172a;
   --text-muted: #475569;
   --text-dim: #64748b;
+  --hero-title: #064e3b;
   
   --shadow-card: 0 12px 35px -6px rgba(5, 150, 105, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
   --shadow-hover: 0 22px 50px -5px rgba(5, 150, 105, 0.25), 0 10px 25px -2px rgba(0, 0, 0, 0.08);
   --shadow-button: 0 6px 20px rgba(5, 150, 105, 0.32);
-  
+  --nav-bg: rgba(255, 255, 255, 0.92);
+
   --radius-xl: 24px;
   --radius-lg: 18px;
   --radius-md: 12px;
@@ -411,4 +413,145 @@ body {
 }
 @keyframes spin {
   100% { transform: rotate(360deg); }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+[id], section {
+  scroll-margin-top: 110px;
+}
+
+/* =========================================================
+   ACETERNITY UI FLOATING DOCK NAVBAR STYLES
+   ========================================================= */
+
+.floating-dock-wrapper {
+  position: sticky;
+  top: 1rem;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 1rem;
+  width: 100%;
+  pointer-events: none;
+}
+
+.floating-dock-container {
+  pointer-events: auto;
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 9999px;
+  padding: 0.5rem 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 20px 45px -8px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.floating-dock-container:hover {
+  border-color: rgba(16, 185, 129, 0.4);
+  box-shadow: 0 25px 55px -10px rgba(0, 0, 0, 0.55), 0 0 24px rgba(5, 150, 105, 0.35);
+}
+
+/* Circular Dock Item Button */
+.dock-item-btn {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  text-decoration: none;
+}
+
+.dock-item-btn:hover {
+  transform: translateY(-5px) scale(1.15);
+  background: rgba(255, 255, 255, 0.2);
+  border-color: var(--accent-primary);
+  color: #ffffff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35), 0 0 14px var(--accent-primary);
+}
+
+.dock-item-btn.active {
+  background: var(--accent-primary);
+  border-color: #ffffff;
+  color: #ffffff;
+  box-shadow: 0 0 18px var(--accent-primary), 0 4px 14px rgba(0,0,0,0.3);
+}
+
+/* Center Featured Logo/Brand Button */
+.dock-item-brand {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 8px 22px rgba(5, 150, 105, 0.4), 0 0 18px var(--accent-primary);
+  margin: 0 0.1rem;
+}
+
+.dock-item-brand:hover {
+  transform: translateY(-6px) scale(1.2);
+  border-color: #ffffff;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), 0 0 28px var(--accent-primary);
+}
+
+/* Aceternity UI Tooltip Bubble - Positioned Floating Below for Perfect Visibility */
+.dock-tooltip {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px) scale(0.85);
+  background: #0f172a;
+  color: #ffffff;
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  letter-spacing: 0.3px;
+  z-index: 1000;
+}
+
+.dock-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #0f172a transparent;
+}
+
+.dock-item-btn:hover .dock-tooltip,
+.dock-item-brand:hover .dock-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0) scale(1);
 }

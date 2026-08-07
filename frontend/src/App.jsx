@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Upload, FileText, CheckCircle2, AlertTriangle, Download, 
   RefreshCw, Layers, ShieldCheck, Tag, Search, Filter, Save, Sparkles, Building2, CreditCard, DollarSign,
-  ArrowRight, Shield, Zap, Cpu, BarChart3, Database, FileSpreadsheet, ExternalLink, Eye, X, Info, Code, Play, ArrowDownLeft, ArrowUpRight, Check
+  ArrowRight, Shield, Zap, Cpu, BarChart3, Database, FileSpreadsheet, ExternalLink, Eye, X, Info, Code, Play, 
+  ArrowDownLeft, ArrowUpRight, Check, Palette, ChevronDown, Menu, Home, LayoutDashboard
 } from 'lucide-react';
 
 const API_BASE = '/api';
@@ -78,8 +79,8 @@ export default function App() {
   };
 
   const categoriesList = [
-    "ALL", "Food", "Fuel", "Salary", "Utilities", "Shopping", "Transport", 
-    "Healthcare", "Insurance", "Entertainment", "Education", "Investment", 
+    "ALL", "Food", "Fuel", "Salary", "Utilities", "Shopping", "Transport",
+    "Healthcare", "Insurance", "Entertainment", "Education", "Investment",
     "Bank Charges", "Cash Withdrawal", "Cash Deposit", "Transfer", "Loan/EMI", "Rent", "Refund", "Other"
   ];
 
@@ -264,7 +265,7 @@ export default function App() {
   const handleCellEdit = (index, field, value) => {
     const updated = [...editableTxs];
     updated[index] = { ...updated[index], [field]: value };
-    
+
     if (field === 'debit') {
       const d = parseFloat(value);
       if (!isNaN(d) && d > 0) {
@@ -349,10 +350,10 @@ export default function App() {
   // Filtered transactions list
   const filteredTxs = editableTxs.filter(tx => {
     const matchesSearch = tx.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          tx.date.includes(searchQuery) ||
-                          (tx.sender && tx.sender.toLowerCase().includes(searchQuery.toLowerCase())) ||
-                          (tx.recipient && tx.recipient.toLowerCase().includes(searchQuery.toLowerCase())) ||
-                          (tx.raw_description && tx.raw_description.toLowerCase().includes(searchQuery.toLowerCase()));
+      tx.date.includes(searchQuery) ||
+      (tx.sender && tx.sender.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (tx.recipient && tx.recipient.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (tx.raw_description && tx.raw_description.toLowerCase().includes(searchQuery.toLowerCase()));
     const matchesCat = selectedCategory === 'ALL' || tx.category === selectedCategory;
     const matchesReview = !showNeedsReviewOnly || tx.needs_review;
     return matchesSearch && matchesCat && matchesReview;
@@ -362,74 +363,74 @@ export default function App() {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative' }}>
-      
-      {/* Universal Modern Navbar */}
-      <nav style={{ background: 'rgba(255, 255, 255, 0.92)', backdropFilter: 'blur(16px)', borderBottom: '1px solid var(--border-color)', position: 'sticky', top: 0, zIndex: 100, boxShadow: '0 4px 15px rgba(0,0,0,0.03)' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0.85rem 1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      {/* Aceternity UI Modern Floating Dock Navbar */}
+      <header className="floating-dock-wrapper">
+        <nav className="floating-dock-container">
           
-          {/* Custom High-Tech App Logo & Branding */}
-          <div 
-            style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', cursor: 'pointer' }}
-            onClick={() => setActiveTab('home')}
+          {/* 1. Home Icon Button */}
+          <button 
+            className={`dock-item-btn ${activeTab === 'home' ? 'active' : ''}`}
+            onClick={() => {
+              setActiveTab('home');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
           >
-            <div style={{ background: 'linear-gradient(135deg, #059669, #0d9488)', padding: '0.45rem', borderRadius: '14px', display: 'flex', boxShadow: '0 4px 14px rgba(5, 150, 105, 0.25)' }}>
-              <img 
-                src="/logo.png" 
-                alt="StatementAI Logo" 
-                style={{ height: '36px', width: '36px', objectFit: 'contain' }} 
-              />
-            </div>
-            <div>
-              <span style={{ fontSize: '1.35rem', fontWeight: 800, letterSpacing: '-0.5px', color: '#064e3b' }}>
-                Statement<span style={{ color: 'var(--accent-primary)' }}>AI</span>
-              </span>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginTop: '-2px', fontWeight: 500 }}>
-                Bank Statement Processing Platform
-              </span>
-            </div>
-          </div>
+            <Home size={20} />
+            <span className="dock-tooltip">Home</span>
+          </button>
 
-          {/* Navigation Links */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.75rem' }}>
-            <button 
-              onClick={() => setActiveTab('home')}
-              style={{ background: 'none', border: 'none', fontWeight: activeTab === 'home' ? 700 : 500, color: activeTab === 'home' ? 'var(--accent-primary)' : 'var(--text-muted)', cursor: 'pointer', fontSize: '0.9rem' }}
-            >
-              Home
-            </button>
-            <a href="#how-it-works" style={{ textDecoration: 'none', fontWeight: 500, color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-              How It Works
-            </a>
-            <a href="#features" style={{ textDecoration: 'none', fontWeight: 500, color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-              Features
-            </a>
-            <a href="#supported-banks" style={{ textDecoration: 'none', fontWeight: 500, color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-              Supported Banks
-            </a>
+          {/* 2. How It Works Icon Button */}
+          <a href="#how-it-works" className="dock-item-btn">
+            <Layers size={20} />
+            <span className="dock-tooltip">How It Works</span>
+          </a>
 
-            <button 
-              className="glass-button" 
-              style={{ padding: '0.55rem 1.25rem', fontSize: '0.875rem' }}
-              onClick={() => setActiveTab('workspace')}
-            >
-              <Sparkles size={16} /> Launch Workspace
-            </button>
-          </div>
+          {/* 3. Features Icon Button */}
+          <a href="#features" className="dock-item-btn">
+            <Cpu size={20} />
+            <span className="dock-tooltip">AI Features</span>
+          </a>
 
-        </div>
-      </nav>
+          {/* 4. Center Raised Brand Badge Button */}
+          <button 
+            className="dock-item-brand"
+            onClick={() => setActiveTab(activeTab === 'home' ? 'workspace' : 'home')}
+          >
+            <Sparkles size={24} color="#ffffff" />
+            <span className="dock-tooltip">
+              {activeTab === 'home' ? 'StatementAI Platform' : 'Return Home'}
+            </span>
+          </button>
+
+          {/* 5. Supported Banks Icon Button */}
+          <a href="#supported-banks" className="dock-item-btn">
+            <Building2 size={20} />
+            <span className="dock-tooltip">Supported Banks</span>
+          </a>
+
+          {/* 6. Workspace App Dashboard Button */}
+          <button 
+            className={`dock-item-btn ${activeTab === 'workspace' ? 'active' : ''}`}
+            onClick={() => setActiveTab('workspace')}
+          >
+            <LayoutDashboard size={20} />
+            <span className="dock-tooltip">Launch Workspace</span>
+          </button>
+
+        </nav>
+      </header>
 
       {/* VIEW 1: Modern Dynamic Home Page */}
       {activeTab === 'home' && (
         <div style={{ position: 'relative' }}>
-          
+
           {/* Ambient Glowing Halo */}
           <div className="hero-ambient-glow" />
 
           {/* Hero Section with Interactive Live Widget */}
           <section style={{ padding: '4.5rem 1.5rem 3.5rem', maxWidth: '1350px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '3.5rem', alignItems: 'center' }}>
-              
+
               {/* Left Column: Hero Copy */}
               <div>
                 <div className="badge badge-success" style={{ padding: '0.5rem 1.1rem', fontSize: '0.85rem', marginBottom: '1.5rem' }}>
@@ -446,16 +447,16 @@ export default function App() {
                 </p>
 
                 <div style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap', marginBottom: '2.5rem' }}>
-                  <button 
-                    className="glass-button" 
+                  <button
+                    className="glass-button"
                     style={{ padding: '0.9rem 2rem', fontSize: '1.05rem' }}
                     onClick={() => setActiveTab('workspace')}
                   >
                     Start Processing PDF <ArrowRight size={20} />
                   </button>
-                  
-                  <a 
-                    href="#features" 
+
+                  <a
+                    href="#features"
                     className="glass-button-secondary"
                     style={{ padding: '0.9rem 1.75rem', fontSize: '1rem' }}
                   >
@@ -473,7 +474,7 @@ export default function App() {
 
               {/* Right Column: Dynamic Interactive Live Simulator Widget */}
               <div className="hero-interactive-card">
-                
+
                 {/* Header Toolbar */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '0.85rem' }}>
                   <div>
@@ -487,19 +488,19 @@ export default function App() {
 
                   {/* Simulator Bank Pills */}
                   <div style={{ display: 'flex', gap: '0.35rem', background: '#f1f5f9', padding: '0.25rem', borderRadius: '10px' }}>
-                    <button 
+                    <button
                       onClick={() => handleHeroBankSwitch('sbi')}
                       style={{ padding: '0.3rem 0.7rem', borderRadius: '7px', border: 'none', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer', background: heroSimBank === 'sbi' ? '#059669' : 'transparent', color: heroSimBank === 'sbi' ? '#ffffff' : '#475569', transition: 'all 0.2s ease' }}
                     >
                       SBI
                     </button>
-                    <button 
+                    <button
                       onClick={() => handleHeroBankSwitch('hdfc')}
                       style={{ padding: '0.3rem 0.7rem', borderRadius: '7px', border: 'none', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer', background: heroSimBank === 'hdfc' ? '#059669' : 'transparent', color: heroSimBank === 'hdfc' ? '#ffffff' : '#475569', transition: 'all 0.2s ease' }}
                     >
                       HDFC
                     </button>
-                    <button 
+                    <button
                       onClick={() => handleHeroBankSwitch('icici')}
                       style={{ padding: '0.3rem 0.7rem', borderRadius: '7px', border: 'none', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer', background: heroSimBank === 'icici' ? '#059669' : 'transparent', color: heroSimBank === 'icici' ? '#ffffff' : '#475569', transition: 'all 0.2s ease' }}
                     >
@@ -552,8 +553,8 @@ export default function App() {
                     </div>
 
                     {/* Action Bar */}
-                    <button 
-                      className="glass-button" 
+                    <button
+                      className="glass-button"
                       style={{ width: '100%', justifyContent: 'center', padding: '0.75rem', fontSize: '0.9rem' }}
                       onClick={() => setActiveTab('workspace')}
                     >
@@ -579,7 +580,7 @@ export default function App() {
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.75rem' }}>
-              
+
               <div className="step-card" onClick={() => setSelectedFeatureModal(featureDetailsData.page_inspector)}>
                 <div className="step-number-badge">1</div>
                 <h3 style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: '0.5rem', color: '#064e3b' }}>Upload Statement</h3>
@@ -631,9 +632,9 @@ export default function App() {
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '2rem' }}>
-              
+
               {/* Feature Card 1 */}
-              <div 
+              <div
                 className="animated-feature-card"
                 onClick={() => setSelectedFeatureModal(featureDetailsData.page_inspector)}
               >
@@ -652,7 +653,7 @@ export default function App() {
               </div>
 
               {/* Feature Card 2 */}
-              <div 
+              <div
                 className="animated-feature-card"
                 onClick={() => setSelectedFeatureModal(featureDetailsData.header_extractor)}
               >
@@ -671,7 +672,7 @@ export default function App() {
               </div>
 
               {/* Feature Card 3 */}
-              <div 
+              <div
                 className="animated-feature-card"
                 onClick={() => setSelectedFeatureModal(featureDetailsData.validation_suite)}
               >
@@ -690,7 +691,7 @@ export default function App() {
               </div>
 
               {/* Feature Card 4 */}
-              <div 
+              <div
                 className="animated-feature-card"
                 onClick={() => setSelectedFeatureModal(featureDetailsData.ml_categorization)}
               >
@@ -709,7 +710,7 @@ export default function App() {
               </div>
 
               {/* Feature Card 5 */}
-              <div 
+              <div
                 className="animated-feature-card"
                 onClick={() => setSelectedFeatureModal(featureDetailsData.interactive_grid)}
               >
@@ -728,7 +729,7 @@ export default function App() {
               </div>
 
               {/* Feature Card 6 */}
-              <div 
+              <div
                 className="animated-feature-card"
                 onClick={() => setSelectedFeatureModal(featureDetailsData.excel_exporter)}
               >
@@ -777,8 +778,8 @@ export default function App() {
               <p style={{ fontSize: '1.1rem', opacity: 0.9, maxWidth: '640px', margin: '0 auto 2rem' }}>
                 Upload any bank statement PDF to inspect page breakdowns, extracted metadata, accounting continuity, and download styled Excel workbooks.
               </p>
-              <button 
-                className="glass-button" 
+              <button
+                className="glass-button"
                 style={{ background: '#ffffff', color: '#064e3b', padding: '0.95rem 2.5rem', fontSize: '1.05rem' }}
                 onClick={() => setActiveTab('workspace')}
               >
@@ -793,7 +794,7 @@ export default function App() {
       {/* VIEW 2: Upload Dropzone & Processing Workspace */}
       {activeTab === 'workspace' && (
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '2rem 1.5rem', width: '100%' }}>
-          
+
           {/* Workspace Header Toolbar */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem', flexWrap: 'wrap', gap: '1rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -818,7 +819,7 @@ export default function App() {
           {/* Main Upload Dropzone View if No Result */}
           {!result && (
             <div style={{ maxWidth: '660px', margin: '3rem auto' }}>
-              <div 
+              <div
                 className={`dropzone ${dragActive ? 'active' : ''}`}
                 onDragEnter={handleDrag}
                 onDragLeave={handleDrag}
@@ -826,11 +827,11 @@ export default function App() {
                 onDrop={handleDrop}
                 onClick={() => document.getElementById('fileInput').click()}
               >
-                <input 
+                <input
                   id="fileInput"
-                  type="file" 
-                  accept=".pdf" 
-                  style={{ display: 'none' }} 
+                  type="file"
+                  accept=".pdf"
+                  style={{ display: 'none' }}
                   onChange={(e) => e.target.files[0] && processSelectedFile(e.target.files[0])}
                 />
 
@@ -844,16 +845,16 @@ export default function App() {
                   {file ? file.name : "Upload Bank Statement PDF"}
                 </h3>
                 <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: '1.75rem' }}>
-                  {file ? `${(file.size / (1024*1024)).toFixed(2)} MB • PDF Document` : "Drag and drop or browse to upload. Supports HDFC, ICICI, SBI, Axis, Kotak & Borderless PDFs (Up to 50 MB)"}
+                  {file ? `${(file.size / (1024 * 1024)).toFixed(2)} MB • PDF Document` : "Drag and drop or browse to upload. Supports HDFC, ICICI, SBI, Axis, Kotak & Borderless PDFs (Up to 50 MB)"}
                 </p>
 
-                <button 
-                  className="glass-button" 
-                  style={{ margin: '0 auto' }} 
-                  onClick={(e) => { 
-                    e.stopPropagation(); 
-                    document.getElementById('fileInput').click(); 
-                  }} 
+                <button
+                  className="glass-button"
+                  style={{ margin: '0 auto' }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    document.getElementById('fileInput').click();
+                  }}
                   disabled={loading}
                 >
                   {loading ? (
@@ -896,7 +897,7 @@ export default function App() {
           {/* Result Dashboard View */}
           {result && (
             <div>
-              
+
               {/* Top Controls Toolbar */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -914,7 +915,7 @@ export default function App() {
                       <Save size={18} /> {savingEdits ? 'Saving...' : 'Save Table Edits'}
                     </button>
                   )}
-                  
+
                   <button className="glass-button-secondary" onClick={handleRetrain} disabled={retraining}>
                     <RefreshCw size={16} /> Retrain ML
                   </button>
@@ -931,7 +932,7 @@ export default function App() {
 
               {/* Account Details & Summary Statistics Cards */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.25rem', marginBottom: '2rem' }}>
-                
+
                 {/* Card 1: Account Information */}
                 <div className="glass-panel" style={{ padding: '1.25rem', wordBreak: 'break-word' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.85rem', color: '#064e3b' }}>
@@ -1013,7 +1014,7 @@ export default function App() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flex: 1, minWidth: '280px' }}>
                   <div style={{ position: 'relative', width: '100%' }}>
                     <Search size={18} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                    <input 
+                    <input
                       type="text"
                       placeholder="Search descriptions, sender, recipient, or dates..."
                       value={searchQuery}
@@ -1027,8 +1028,8 @@ export default function App() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <Filter size={16} color="var(--text-muted)" />
-                    <select 
-                      value={selectedCategory} 
+                    <select
+                      value={selectedCategory}
                       onChange={(e) => setSelectedCategory(e.target.value)}
                       className="input-cell"
                       style={{ width: '160px' }}
@@ -1040,8 +1041,8 @@ export default function App() {
                   </div>
 
                   <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', cursor: 'pointer', fontWeight: 600 }}>
-                    <input 
-                      type="checkbox" 
+                    <input
+                      type="checkbox"
                       checked={showNeedsReviewOnly}
                       onChange={(e) => setShowNeedsReviewOnly(e.target.checked)}
                     />
@@ -1076,12 +1077,12 @@ export default function App() {
 
                       return (
                         <tr key={tx.transaction_id} className={tx.needs_review ? 'needs-review' : ''}>
-                          
+
                           {/* Date */}
                           <td>
-                            <input 
-                              type="text" 
-                              value={tx.date} 
+                            <input
+                              type="text"
+                              value={tx.date}
                               onChange={(e) => handleCellEdit(idx, 'date', e.target.value)}
                               className="input-cell mono"
                               style={{ fontSize: '0.8rem' }}
@@ -1090,9 +1091,9 @@ export default function App() {
 
                           {/* Description */}
                           <td>
-                            <input 
-                              type="text" 
-                              value={tx.description} 
+                            <input
+                              type="text"
+                              value={tx.description}
                               onChange={(e) => handleCellEdit(idx, 'description', e.target.value)}
                               className="input-cell"
                               style={{ fontWeight: 500 }}
@@ -1101,9 +1102,9 @@ export default function App() {
 
                           {/* Sender (Money From) */}
                           <td>
-                            <input 
-                              type="text" 
-                              value={tx.sender || 'Self'} 
+                            <input
+                              type="text"
+                              value={tx.sender || 'Self'}
                               onChange={(e) => handleCellEdit(idx, 'sender', e.target.value)}
                               className="input-cell"
                               style={{ fontSize: '0.8rem', color: tx.credit ? '#059669' : 'var(--text-muted)', fontWeight: tx.credit ? 600 : 400 }}
@@ -1112,9 +1113,9 @@ export default function App() {
 
                           {/* Recipient (Money To) */}
                           <td>
-                            <input 
-                              type="text" 
-                              value={tx.recipient || 'Self'} 
+                            <input
+                              type="text"
+                              value={tx.recipient || 'Self'}
                               onChange={(e) => handleCellEdit(idx, 'recipient', e.target.value)}
                               className="input-cell"
                               style={{ fontSize: '0.8rem', color: tx.debit ? '#dc2626' : 'var(--text-muted)', fontWeight: tx.debit ? 600 : 400 }}
@@ -1123,9 +1124,9 @@ export default function App() {
 
                           {/* Debit */}
                           <td>
-                            <input 
-                              type="number" 
-                              value={tx.debit !== null && tx.debit !== undefined ? tx.debit : ''} 
+                            <input
+                              type="number"
+                              value={tx.debit !== null && tx.debit !== undefined ? tx.debit : ''}
                               onChange={(e) => handleCellEdit(idx, 'debit', e.target.value)}
                               placeholder="—"
                               className="input-cell mono"
@@ -1135,9 +1136,9 @@ export default function App() {
 
                           {/* Credit */}
                           <td>
-                            <input 
-                              type="number" 
-                              value={tx.credit !== null && tx.credit !== undefined ? tx.credit : ''} 
+                            <input
+                              type="number"
+                              value={tx.credit !== null && tx.credit !== undefined ? tx.credit : ''}
                               onChange={(e) => handleCellEdit(idx, 'credit', e.target.value)}
                               placeholder="—"
                               className="input-cell mono"
@@ -1147,9 +1148,9 @@ export default function App() {
 
                           {/* Balance */}
                           <td>
-                            <input 
-                              type="number" 
-                              value={tx.balance} 
+                            <input
+                              type="number"
+                              value={tx.balance}
                               onChange={(e) => handleCellEdit(idx, 'balance', parseFloat(e.target.value) || 0)}
                               className="input-cell mono"
                               style={{ textAlign: 'right', fontWeight: 600 }}
@@ -1158,8 +1159,8 @@ export default function App() {
 
                           {/* Category Select */}
                           <td>
-                            <select 
-                              value={tx.category || 'Other'} 
+                            <select
+                              value={tx.category || 'Other'}
                               onChange={(e) => handleCellEdit(idx, 'category', e.target.value)}
                               className="input-cell"
                             >
@@ -1197,7 +1198,7 @@ export default function App() {
                 <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '1.25rem', color: '#064e3b', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <Tag size={20} color="var(--accent-primary)" /> Category Breakdown Summary
                 </h3>
-                
+
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
                   {result.classification_summary.map(cs => (
                     <div key={cs.category} style={{ background: '#f8fafc', padding: '1rem', borderRadius: 'var(--radius-md)', border: '1px solid #e2e8f0' }}>
@@ -1224,7 +1225,7 @@ export default function App() {
       {selectedFeatureModal && (
         <div className="modal-overlay" onClick={() => setSelectedFeatureModal(null)}>
           <div className="modal-content-card" onClick={(e) => e.stopPropagation()}>
-            
+
             {/* Modal Header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -1237,7 +1238,7 @@ export default function App() {
                 </div>
               </div>
 
-              <button 
+              <button
                 onClick={() => setSelectedFeatureModal(null)}
                 style={{ background: '#f1f5f9', border: 'none', borderRadius: '50%', width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#475569' }}
               >
@@ -1274,8 +1275,8 @@ export default function App() {
             {/* Modal Footer CTA */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--border-subtle)', paddingTop: '1.25rem' }}>
               <span className="badge badge-success">{selectedFeatureModal.badgeText}</span>
-              
-              <button 
+
+              <button
                 className="glass-button"
                 onClick={() => {
                   setSelectedFeatureModal(null);
